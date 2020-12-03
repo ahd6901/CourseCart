@@ -4,12 +4,12 @@ import './index.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import MyComponent from './mycomponent';
+// import MyComponent from './mycomponent';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <MyComponent />
+    {/*<MyComponent />*/}
   </React.StrictMode>,
   document.getElementById('root')
 );
