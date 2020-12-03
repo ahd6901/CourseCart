@@ -20,8 +20,8 @@ class TestExample(unittest.TestCase):
 
     def test_add_course(self):
         exec_sql_file('react4_schema.sql')
-        body = {'dept_id': 1, 'name': 'new_swen121',
-                'c_desc': 'new course', 'details': 'hello'}
+        body = {'name': 'new_swen121',
+                'c_desc': 'new course', 'details': 'no students here', 'dept_id': 1}
         result = post_rest_call(self, 'http://localhost:5000/coursedata/', body)
         self.assertEqual(10, len(result))
         print("\n => After add 1 course to list:\n " + str(result))
