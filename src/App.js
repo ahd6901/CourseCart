@@ -2,11 +2,11 @@
 // } from 'reactstrap';
 import React, { Component } from 'react';
 import List from "./List";
+// import {Col, Container, Row} from "reactstrap";
 class App extends Component {
     render() {
         return (
             <div>
-              <label>xin chao</label>
                     {/*<Container>*/}
                     {/*    <Row>*/}
                     {/*        <Col>*/}
@@ -16,7 +16,7 @@ class App extends Component {
                     {/*        </Col>*/}
                     {/*    </Row>*/}
                     {/*</Container>*/}
-                    <List/>
+<List/>
             </div>
         );
     }

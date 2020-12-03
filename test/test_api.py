@@ -28,7 +28,7 @@ class TestExample(unittest.TestCase):
 
     def test_update_course(self):
         exec_sql_file('react4_schema.sql')
-        updated_body = {'c_desc': 'new course description', 'details': 'hello'}
+        updated_body = {'c_desc': 'new course description', 'details': 'bruh'}
         result = put_rest_call(self, 'http://localhost:5000/coursedata/1', updated_body)
         self.assertEqual(9, len(result))
         print("\n => list After update a course desc and details: \n" + str(result))
