@@ -18,7 +18,11 @@ class List extends Component {
     state = {
         courses: [],
         modal: false,
-        // department: " "
+        name: null,
+        description: null,
+        details: null,
+        department: null,
+
 
     }
     display = () => {
@@ -26,15 +30,6 @@ class List extends Component {
         return this.state.courses.map((course) => {
             const {course_id, name, c_desc, details, department, college} = course
             return (
-                    // <tr key={course_id}>
-                    //     <td><Button color="primary" onClick={this.editClicked}>Edit</Button></td>
-                    //     <td>{name}</td>
-                    //     <td>{c_desc}</td>
-                    //     <td>{details}</td>
-                    //     <td>{department}</td>
-                    //     <td>{college}</td>
-                    // </tr>
-
                 <Course add={this.add} update={this.update}
                         course_id={course_id} name={name} des={c_desc} details={details}
                         dept={department} college={college}
@@ -43,21 +38,28 @@ class List extends Component {
             )
         })
     }
+    addName = (e) => {
+        this.setState({
+            name: e.target.value
+        })
+    }
+    addDescription = (e) => {
+        this.setState({
+            description: e.target.value
+        })
+    }
+    addDetails = (e) => {
+        this.setState({
+            details: e.target.value
+        })
+    }
+    addDepartment = (e) => {
+        this.setState({
+            department: parseInt(e.target.value)
+        })
+    }
 
-    // displayCourses = () => {
-    //     return this.state.courses.map((course) => {
-    //         return (
-    //             <tr key={course.id}>
-    //                 <td>{course.name}</td>
-    //                 <td>{course.c_desc}</td>
-    //                 <td>{course.details}</td>
-    //                 <td>{course.department}</td>
-    //                 <td>{course.college}</td>
-    //             </tr>
-    //
-    //         )
-    //     })
-    // }
+
     handleAdd = () => {
         this.setState({
             modal: true
@@ -65,7 +67,11 @@ class List extends Component {
     }
     handleCancel = () => {
         this.setState({
-            modal: false
+            modal: false,
+            name: null,
+            description: null,
+            details: null,
+            department: null
         })
     }
 
@@ -73,11 +79,51 @@ class List extends Component {
         this.setState({
             modal: false
         })
+        this.add(this.state.name, this.state.description, this.state.details, this.state.department)
     }
-    updateCourses = (apiResponse) => {
-        this.setState({
-            courses: apiResponse
-        })
+
+
+    add = (name, c_desc, details, department_id) => {
+        fetch('/coursedata/', {
+            method: "POST",
+            body: JSON.stringify({
+                name: name,
+                c_desc: c_desc,
+                details: details,
+                dept_id: department_id
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(
+            response => response.json()
+        )
+            .then(
+                () => {
+                    this.fetchCourses()
+                }
+            )
+    }
+    update = (course_id, name, c_desc, details, department_id) => {
+        fetch('/coursedata/' + course_id, {
+            method: "PUT",
+            body: JSON.stringify({
+                name: name,
+                c_desc: c_desc,
+                details: details,
+                dept_id: department_id
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(
+            response => response.json()
+        )
+            .then(
+                () => {
+                    this.fetchCourses()
+                }
+            )
     }
     fetchCourses = () => {
         fetch('/coursedata')
@@ -89,57 +135,17 @@ class List extends Component {
         )
 
     }
-    // add = (name, c_desc, details, department_id) => {
-    //     fetch('/coursedata/', {
-    //         method: "POST",
-    //         body: JSON.stringify({
-    //             name: name,
-    //             c_desc: c_desc,
-    //             details: details,
-    //             dept_id: department_id
-    //         }),
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         }
-    //     }).then(
-    //         response => response.json()
-    //     )//The promise response is returned, then we extract the json data
-    //         .then(
-    //             () => //jsonOutput now has result of the data extraction
-    //             {
-    //                 this.fetchCourses()
-    //             }
-    //         )
-    // }
-    // update = (course_id, name, c_desc, details, department_id) => {
-    //     fetch('/coursedata/' + course_id, {
-    //         method: "PUT",
-    //         body: JSON.stringify({
-    //             name: name,
-    //             c_desc: c_desc,
-    //             details: details,
-    //             dept_id: department_id
-    //         }),
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         }
-    //     }).then(
-    //         response => response.json()
-    //     )//The promise response is returned, then we extract the json data
-    //         .then(
-    //             () => //jsonOutput now has result of the data extraction
-    //             {
-    //                 this.fetchCourses()
-    //             }
-    //         )
-    // }
+    updateCourses = (apiResponse) => {
+        this.setState({
+            courses: apiResponse
+        })
+    }
 
     render() {
-        // const department = parseInt("");
         return (
             <div><Card>
                 <CardHeader>Course List</CardHeader>
-                <Table striped >
+                <Table striped>
                     <thead>
                     <th></th>
                     <th>Name</th>
@@ -161,13 +167,13 @@ class List extends Component {
                     <ModalHeader>Add Course</ModalHeader>
                     <ModalBody>
                         <Label>Course Name</Label>
-                        <Input id="cName" type='text' onChange={this.updateFirstName}></Input>
+                        <Input id="cName" type='text' onChange={this.addName}></Input>
                         <Label>Course Description</Label>
-                        <Input id="cDescription" type='text' onChange={this.updateFirstName}></Input>
+                        <Input id="cDescription" type='text' onChange={this.addDescription}></Input>
                         <Label>Course Details</Label>
-                        <Input id="cDetails" type='text' onChange={this.updateFirstName}></Input>
+                        <Input id="cDetails" type='text' onChange={this.addDetails}></Input>
                         <Label>Department </Label><br/>
-                        <select>
+                        <select onClick={this.addDepartment}>
                             <option value="1">Software Engineering</option>
                             <option value="2">Computer Science</option>
                             <option value="3">Computer Engineering</option>

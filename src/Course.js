@@ -4,8 +4,10 @@ import {Button, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "
 class Course extends Component {
     state = {
         modal_displayed: false,
-        added: "false",
-        department: null
+        name: null,
+        description: null,
+        details: null,
+        department: null,
     }
     editClicked = () => {
         this.setState({
@@ -16,21 +18,37 @@ class Course extends Component {
         this.setState({
             modal_displayed: false
         })
-        if (this.state.department != null) {
-            this.props.update(this.props.course_id, this.props.name, this.props.des, this.props.details, this.props.dept)
-        }
+        this.props.update(this.props.course_id, this.state.name, this.state.description, this.state.details, this.state.department)
 
     }
     cancelClicked = () => {
         this.setState({
             modal_displayed: false,
-            department: ""
+            modal: false,
+            name: null,
+            description: null,
+            details: null,
+            department: null
         })
     }
-    departmentOnChanged = (event) => {
+    updateName = (e) => {
         this.setState({
-            modal_displayed: false,
-            department: event.target.value
+            name: e.target.value
+        })
+    }
+    updateDescription = (e) => {
+        this.setState({
+            description: e.target.value
+        })
+    }
+    updateDetails = (e) => {
+        this.setState({
+            details: e.target.value
+        })
+    }
+    updateDepartment = (e) => {
+        this.setState({
+            department: parseInt(e.target.value)
         })
     }
 
@@ -45,17 +63,17 @@ class Course extends Component {
                 <td>{this.props.college}</td>
             </tr>,
             <Modal isOpen={this.state.modal_displayed}>
-                <ModalHeader>Add Course</ModalHeader>
+                <ModalHeader>Edit Course</ModalHeader>
                 <ModalBody>
                     <Label>Course Name</Label>
-                    <Input id="cName" type='text' onChange={this.updateFirstName}></Input>
+                    <Input placeholder={this.props.name} id="cName" type='text' onChange={this.updateName}></Input>
                     <Label>Course Description</Label>
-                    <Input id="cDescription" type='text' onChange={this.updateFirstName}></Input>
+                    <Input placeholder={this.props.des} id="cDescription" type='text' onChange={this.updateDescription}></Input>
                     <Label>Course Details</Label>
-                    <Input input={this.props.details} id="cDetails" type='text'
-                           onChange={this.updateFirstName}></Input>
+                    <Input placeholder={this.props.details} id="cDetails" type='text'
+                           onChange={this.updateDetails}></Input>
                     <Label>Department </Label><br/>
-                    <select onChange={this.departmentOnChanged}>
+                    <select onClick={this.updateDepartment}>
                         <option value="1">Software Engineering</option>
                         <option value="2">Computer Science</option>
                         <option value="3">Computer Engineering</option>
