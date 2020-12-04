@@ -12,12 +12,6 @@ class TestExample(unittest.TestCase):
         print("===> All courses: \n" + str(result))
         self.assertEqual(9, len(result))
 
-    # def test_get_course_by_id(self):
-    #     exec_sql_file('react4_schema.sql')
-    #     result = get_rest_call(self, 'http://localhost:5000/coursedata/1')
-    #     self.assertEqual(1, result[0])
-    #     print(str(result))
-
     def test_add_course(self):
         exec_sql_file('react4_schema.sql')
         body = {'name': 'new_swen121',
@@ -26,9 +20,9 @@ class TestExample(unittest.TestCase):
         self.assertEqual(10, len(result))
         print("\n => After add 1 course to list:\n " + str(result))
 
-    # def test_update_course(self):
-    #     exec_sql_file('react4_schema.sql')
-    #     updated_body = {'c_desc': 'new course description', 'details': 'bruh'}
-    #     result = put_rest_call(self, 'http://localhost:5000/coursedata/1', updated_body)
-    #     self.assertEqual(9, len(result))
-    #     print("\n => list After update a course desc and details: \n" + str(result))
+    def test_update_course(self):
+        exec_sql_file('react4_schema.sql')
+        updated_body = {'c_desc': 'new course description', 'details': 'bruh'}
+        result = put_rest_call(self, 'http://localhost:5000/coursedata/1', updated_body)
+        self.assertEqual(9, len(result))
+        print("\n => list After update a course desc and details: \n" + str(result))

@@ -8,7 +8,7 @@ app = Flask(__name__)  # create Flask instance
 
 api = Api(app)  # api router
 api.add_resource(GetAllCoursesData, '/coursedata')
-# api.add_resource(GetCourseById, '/coursedata/<int:course_id>')
+api.add_resource(GetCourseById, '/coursedata/<int:id>')
 api.add_resource(AddCourse, '/coursedata/')
 api.add_resource(UpdateCourseById, '/coursedata/<int:course_id>')
 
