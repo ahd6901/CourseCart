@@ -15,10 +15,11 @@ class Course extends Component {
         })
     }
     okClicked = () => {
+        this.props.update(parseInt(this.props.course_id, 10), this.state.name, this.state.description, this.state.details, this.state.department)
         this.setState({
             modal_displayed: false
         })
-        this.props.update(this.props.course_id, this.state.name, this.state.description, this.state.details, this.state.department)
+
 
     }
     cancelClicked = () => {
@@ -68,7 +69,8 @@ class Course extends Component {
                     <Label>Course Name</Label>
                     <Input placeholder={this.props.name} id="cName" type='text' onChange={this.updateName}></Input>
                     <Label>Course Description</Label>
-                    <Input placeholder={this.props.des} id="cDescription" type='text' onChange={this.updateDescription}></Input>
+                    <Input placeholder={this.props.des} id="cDescription" type='text'
+                           onChange={this.updateDescription}></Input>
                     <Label>Course Details</Label>
                     <Input placeholder={this.props.details} id="cDetails" type='text'
                            onChange={this.updateDetails}></Input>

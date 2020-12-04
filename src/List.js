@@ -22,22 +22,25 @@ class List extends Component {
         description: null,
         details: null,
         department: null,
-
-
     }
+
+    constructor(props) {
+        super(props);
+        this.fetchCourses();
+    }
+
     display = () => {
-        this.fetchCourses()
         return this.state.courses.map((course) => {
-            const {course_id, name, c_desc, details, department, college} = course
+            const {id, name, c_desc, details, department, college} = course
             return (
                 <Course add={this.add} update={this.update}
-                        course_id={course_id} name={name} des={c_desc} details={details}
+                        course_id={id} name={name} des={c_desc} details={details}
                         dept={department} college={college}
                 ></Course>
-
             )
         })
     }
+
     addName = (e) => {
         this.setState({
             name: e.target.value
@@ -81,7 +84,6 @@ class List extends Component {
         })
         this.add(this.state.name, this.state.description, this.state.details, this.state.department)
     }
-
 
     add = (name, c_desc, details, department_id) => {
         fetch('/coursedata/', {
@@ -133,7 +135,6 @@ class List extends Component {
                 this.updateCourses(jsonOutput)
             }
         )
-
     }
     updateCourses = (apiResponse) => {
         this.setState({
